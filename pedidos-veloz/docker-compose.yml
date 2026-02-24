@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: veloz
+      POSTGRES_PASSWORD: veloz
+      POSTGRES_DB: pedidos
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  pedidos:
+    image: nginx:alpine
+    ports:
+      - "3001:80"
+
+volumes:
+  pgdata:
