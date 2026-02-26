@@ -1,8 +1,10 @@
 version: '3.8'
 
 services:
+
   postgres:
     image: postgres:15-alpine
+    container_name: postgres
     environment:
       POSTGRES_USER: veloz
       POSTGRES_PASSWORD: veloz
@@ -13,9 +15,34 @@ services:
       - "5432:5432"
 
   pedidos:
-    image: nginx:alpine
+    image: palitodf/pedidos:1.0.0
+    container_name: pedidos
+    depends_on:
+      - postgres
     ports:
-      - "3001:80"
+      - "3001:3000"
+
+  estoque:
+    image: palitodf/estoque:1.0.0
+    container_name: estoque
+    ports:
+      - "3002:3000"
+
+  pagamentos:
+    image: palitodf/pagamentos:1.0.0
+    container_name: pagamentos
+    ports:
+      - "3003:3000"
+
+  gateway:
+    image: palitodf/gateway:1.0.0
+    container_name: gateway
+    depends_on:
+      - pedidos
+      - estoque
+      - pagamentos
+    ports:
+      - "3000:3000"
 
 volumes:
   pgdata:
