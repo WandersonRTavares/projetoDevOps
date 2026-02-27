@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: estoque
+  namespace: pedidos-veloz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: estoque
+  template:
+    metadata:
+      labels:
+        app: estoque
+    spec:
+      containers:
+      - name: estoque
+        image: palitodf/estoque:1.0.0
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: app-config
+        - secretRef:
+            name: app-secret

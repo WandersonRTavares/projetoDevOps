@@ -1,0 +1,1 @@
+Foi implementado um pipeline de CI/CD utilizando GitHub Actions, o qual automatiza as fases de build, testes e publicação das imagens Docker no Docker Hub. Secrets foram usados para manter as credenciais seguras e evitar que informações sensíveis fossem expostas no repositório.
