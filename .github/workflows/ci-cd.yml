@@ -20,12 +20,12 @@ jobs:
 
       - name: Instalar dependências
         run: |
-          cd pedidos
+          cd services/pedidos
           npm install
 
       - name: Executar testes (se existirem)
         run: |
-          cd pedidos
+          cd services/pedidos
           npm test --if-present
 
       - name: Login no Docker Hub
@@ -35,7 +35,11 @@ jobs:
           password: ${{ secrets.DOCKER_PASS }}
 
       - name: Build da imagem pedidos
-        run: docker build -t palitodf/pedidos:1.0.${{ github.run_number }} ./pedidos
+        run: |
+          docker build \
+            -t palitodf/pedidos:1.0.${{ github.run_number }} \
+            ./services/pedidos
 
       - name: Push da imagem
-        run: docker push palitodf/pedidos:1.0.${{ github.run_number }}
+        run: |
+          docker push palitodf/pedidos:1.0.${{ github.run_number }}
