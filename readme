@@ -10,3 +10,4 @@ do lado de +OPERATIONS tem o RATE clicar em 1m
 
 _______________________________________________________________________________________
 http://localhost:3000/goto/dff89gbi78irke?orgId=1
+Durante testes de carga usando um pod load-generator, o HPA escalou automaticamente o Deployment de 1 para 5 réplicas quando enquanto o consumo de CPU passou o target de 50%, mostrando a elasticidade horizontal baseada em métricas.
