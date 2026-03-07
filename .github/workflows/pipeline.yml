@@ -1,0 +1,32 @@
+name: CI-CD Kubernetes
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout do código
+              uses: actions/checkout@v3
+
+            - name: Build da imagem Docker
+              run: docker build -t pedidos-app .
+
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Instalar kubectl
+              uses: azure/setup-kubectl@v3
+
+            - name: Deploy no Kubernetes
+              run: |
+                  kubectl apply -f k8s/

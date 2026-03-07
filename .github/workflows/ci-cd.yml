@@ -1,45 +1,45 @@
 name: CI/CD Loja Veloz
 
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
 
 jobs:
-  build-test-push:
-    runs-on: ubuntu-latest
+    build-test-push:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout do código
+              uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
 
-      - name: Instalar dependências
-        run: |
-          cd services/pedidos
-          npm install
+            - name: Instalar dependências
+              run: |
+                  cd services/pedidos
+                  npm install
 
-      - name: Executar testes (se existirem)
-        run: |
-          cd services/pedidos
-          npm test --if-present
+            - name: Executar testes (se existirem)
+              run: |
+                  cd services/pedidos
+                  npm test --if-present
 
-      - name: Login no Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USER }}
-          password: ${{ secrets.DOCKER_PASS }}
+            - name: Login no Docker Hub
+              uses: docker/login-action@v3
+              with:
+                  username: ${{ secrets.DOCKER_USER }}
+                  password: ${{ secrets.DOCKER_PASS }}
 
-      - name: Build da imagem pedidos
-        run: |
-          docker build \
-            -t palitodf/pedidos:1.0.${{ github.run_number }} \
-            ./services/pedidos
+            - name: Build da imagem pedidos
+              run: |
+                  docker build \
+                    -t palitodf/pedidos:1.0.${{ github.run_number }} \
+                    ./services/pedidos
 
-      - name: Push da imagem
-        run: |
-          docker push palitodf/pedidos:1.0.${{ github.run_number }}
+            - name: Push da imagem
+              run: |
+                  docker push palitodf/pedidos:1.0.${{ github.run_number }}
